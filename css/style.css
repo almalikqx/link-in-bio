@@ -1,17 +1,20 @@
 :root {
   --accent: #22D3EE;
   --accent-soft: rgba(34, 211, 238, 0.22);
-  --glass-bg: rgba(255, 255, 255, 0.08);
-  --glass-bg-strong: rgba(255, 255, 255, 0.15);
-  --glass-border: rgba(255, 255, 255, 0.18);
-  --glass-border-strong: rgba(255, 255, 255, 0.32);
+  /* lebih ringan agar efek gelas transparan terasa lebih halus */
+  --glass-bg: rgba(255, 255, 255, 0.06);
+  --glass-bg-strong: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.10);
+  --glass-border-strong: rgba(255, 255, 255, 0.20);
   --text: #FFFFFF;
   --text-muted: rgba(255, 255, 255, 0.68);
   --text-dim: rgba(255, 255, 255, 0.48);
   --shadow-profile: 0 16px 40px -8px rgba(0, 0, 0, 0.6), 0 0 32px -8px rgba(34, 211, 238, 0.35);
   --radius-lg: 28px;
   --radius-md: 18px;
-  --blur-light: blur(20px) saturate(160%);
+  /* sedikit lebih blur & saturate untuk efek glass yang "lebih lembut" */
+  --blur-light: blur(24px) saturate(180%);
+  --noise-opacity: 0.06;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -44,21 +47,20 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  /* Keep a solid fallback color to avoid white flashes during fast scroll/repaints */
-  background-color: #020617;
-  /* Gradient as background-image, but avoid `background-attachment: fixed` which can cause white flashes on some browsers/devices */
-  background-image: linear-gradient(170deg, #020617 0%, #082F4E 38%, #0C4A6E 68%, #082F4E 100%);
+
+  /* smooth, non-banding dark-blue background using layered gradients + base color */
+  background-color: #041026;
+  background-image:
+    radial-gradient(800px 400px at 10% 10%, rgba(6,48,74,0.9) 0%, transparent 25%),
+    radial-gradient(700px 350px at 90% 70%, rgba(4,42,80,0.9) 0%, transparent 30%),
+    linear-gradient(170deg, #020617 0%, #082F4E 40%, #0C4A6E 70%, #082F4E 100%);
   background-repeat: no-repeat;
   background-size: cover;
-  /* Promote body to its own compositing layer to reduce repaint white flashes */
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  will-change: background-position;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
+  background-attachment: scroll; /* fixed can produce banding on some devices */
+  background-blend-mode: overlay, overlay, normal;
 }
 
-.bg-scene { position: fixed; inset: 0; overflow: hidden; z-index: 0; pointer-events: none; /* reduce repaints */ will-change: transform; -webkit-transform: translateZ(0); }
+.bg-scene { position: fixed; inset: 0; overflow: hidden; z-index: 0; pointer-events: none; }
 .blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.6; animation: float 20s ease-in-out infinite; }
 .blob-1 { width: 420px; height: 420px; background: radial-gradient(circle, rgba(34,211,238,0.85) 0%, #0E7490 55%, transparent 100%); top: -100px; left: -100px; }
 .blob-2 { width: 380px; height: 380px; background: radial-gradient(circle, #2563EB 0%, #1E3A8A 100%); top: 30%; right: -120px; animation-delay: -5s; }
@@ -69,33 +71,51 @@ body {
   50% { transform: translate(-20px, 40px) scale(0.95); }
 }
 
+/* subtle noise overlay with low frequency to avoid harsh patterns */
 body::before {
-  content: ''; position: fixed; inset: 0; pointer-events: none; opacity: 0.04; z-index: 1;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  content: ''; position: fixed; inset: 0; pointer-events: none; opacity: var(--noise-opacity); z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.04' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   mix-blend-mode: overlay;
 }
 
 .container { width: 100%; max-width: 520px; position: relative; z-index: 2; }
 
-.cover-wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--radius-lg); background: rgba(255,255,255,0.06); }
-/* Shimmer saat gambar belum datang */
-.cover-wrap::before { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%); animation: shimmer 1.6s infinite linear; }
+/* cover + shimmer */
+.cover-wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--radius-lg); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.04); }
+.cover-wrap::before { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,0.06) 50%, transparent 70%); animation: shimmer 1.6s infinite; }
 .cover { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.8s, filter 0.5s, opacity 0.5s; position: relative; z-index: 1; }
-/* Blur-up: preview kecil tampil blur dulu, hilang setelah full-res loaded */
 .blur-up { filter: blur(12px); opacity: 0.7; }
 .blur-up.is-loaded { filter: blur(0); opacity: 1; }
 @keyframes shimmer { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
-.cover-wrap::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(2, 6, 23, 0.45) 100%); }
+.cover-wrap::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(2, 6, 23, 0.35) 100%); }
 
+/* profile + ring */
 .profile-wrap { display: flex; justify-content: center; margin-top: -60px; margin-bottom: 24px; position: relative; z-index: 3; }
-.profile-ring { padding: 3px; border-radius: 50%; background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.1)); backdrop-filter: blur(10px); box-shadow: var(--shadow-profile); }
-.profile { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; display: block; background: rgba(255,255,255,0.08); transition: filter 0.5s, opacity 0.5s; }
+.profile-ring { padding: 3px; border-radius: 50%; background: linear-gradient(135deg, rgba(255,255,255,0.35), rgba(255,255,255,0.08)); backdrop-filter: blur(10px); box-shadow: var(--shadow-profile); border: 1px solid rgba(255,255,255,0.06); }
+.profile { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; display: block; background: rgba(255,255,255,0.06); transition: filter 0.5s, opacity 0.5s; }
 .profile.blur-up { filter: blur(8px); }
 .profile.blur-up.is-loaded { filter: blur(0); opacity: 1; }
 
 .info { text-align: center; padding: 0 20px 28px; position: relative; z-index: 2; }
 .name { font-family: 'Roboto', sans-serif; font-size: clamp(30px, 9vw, 42px); margin-bottom: 4px; font-weight: 700; line-height: 1.1; }
-.username { display: inline-flex; align-items: center; justify-content: center; text-align: center; font-size: 13px; font-weight: 500; background: var(--glass-bg-strong); backdrop-filter: blur(20px); border-radius: 999px; padding: 6px 10px; }
+
+/* improved liquid glass pill for username */
+.username {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  background: var(--glass-bg-strong);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border-radius: 999px;
+  padding: 6px 10px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.35);
+}
+
 .username span { letter-spacing: 0; word-spacing: 0; }
 .bio { font-size: 15px; color: var(--text-muted); max-width: 420px; margin: 0 auto; line-height: 1.6; }
 
@@ -104,14 +124,28 @@ body::before {
 .divider-dot { width: 4px; height: 4px; background: var(--accent); border-radius: 50%; }
 
 .socials { padding: 0 8px 28px; display: grid; gap: 10px; }
-.social-link { display: flex; align-items: center; gap: 14px; padding: 12px 16px; background: var(--glass-bg); backdrop-filter: var(--blur-light); -webkit-backdrop-filter: var(--blur-light); border-radius: 12px; border: 1px solid var(--glass-border); text-decoration: none; color: inherit; transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease; }
+.social-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--blur-light);
+  -webkit-backdrop-filter: var(--blur-light);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  transition: transform 0.18s cubic-bezier(.2,.9,.2,1), box-shadow 0.18s;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.45), inset 0 1px 0 rgba(255,255,255,0.02);
+  background-clip: padding-box;
+}
 .social-link:visited, .social-link:link { color: var(--text); }
-.social-link:hover { transform: translateY(-2px); background: var(--glass-bg-strong); border-color: var(--glass-border-strong); }
+.social-link:hover { transform: translateY(-2px); background: var(--glass-bg-strong); border-color: var(--glass-border-strong); box-shadow: 0 10px 28px rgba(2,6,23,0.5), 0 2px 8px rgba(34,211,238,0.06); }
 .social-link:active { transform: translateY(0) scale(0.99); background: var(--accent-soft); border-color: var(--accent); }
 .social-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.social-icon { width: 40px; height: 40px; flex-shrink: 0; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: var(--glass-bg-strong); border: 1px solid var(--glass-border); }
+.social-icon { width: 40px; height: 40px; flex-shrink: 0; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: var(--glass-bg-strong); border: 1px solid var(--glass-border); box-shadow: inset 0 1px 0 rgba(255,255,255,0.02); }
 .social-link:hover .social-icon { background: linear-gradient(135deg, #0EA5E9, #22D3EE); color: #020617; transform: rotate(-6deg) scale(1.05); box-shadow: 0 8px 24px -6px rgba(34, 211, 238, 0.55); }
 .social-icon svg { width: 18px; height: 18px; }
+
 .social-info { flex: 1; }
 .social-name { font-size: 15px; font-weight: 600; display: block; }
 .social-handle { font-size: 12px; color: var(--text-muted); display: block; margin-top: 2px; }

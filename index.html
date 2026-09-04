@@ -1,0 +1,77 @@
+<! html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>almalikqx</title>
+  <metaDOCTYPE name="description" content="Software Engineer & UI Designer. Suka ngopi dan ngoding tengah malam." />
+  <meta name="theme-color" content="#C67B4A" />
+
+  <meta property="og:type" content="profile" />
+  <meta property="og:title" content="almalikqx" />
+  <meta property="og:description" content="Software Engineer & UI Designer." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=70&w=1200&auto=format&fit=crop" />
+  <meta property="og:url" content="https://malik.github.io" />
+  <link rel="icon" href="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=60&w=64&auto=format&fit=crop" />
+
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link rel="dns-prefetch" href="https://images.unsplash.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <!-- Panggil CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="bg-scene">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <main class="container">
+    <div class="cover-wrap">
+      <!-- Teknik blur-up: preview 32px (~2KB) langsung tampil, lalu full-res menimpa. Jadi "langsung kebuka" -->
+      <img id="domCover" class="cover blur-up" alt="Cover photo" fetchpriority="high" loading="eager" decoding="async" />
+    </div>
+
+    <div class="profile-wrap">
+      <div class="profile-ring">
+        <img id="domProfile" class="profile blur-up" alt="Profile photo" width="120" height="120" fetchpriority="high" loading="eager" decoding="async" />
+      </div>
+    </div>
+
+    <div class="info">
+      <h1 class="name"><span id="domName">Malik</span></h1>
+      <div class="username">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+        </svg>
+        @<span id="domUsername">malik</span>
+      </div>
+      <p class="bio" id="domBio">Software Engineer & UI Designer. Suka ngopi dan ngoding tengah malam.</p>
+    </div>
+
+    <div class="divider">
+      <span class="divider-dot"></span>
+      <span>Connect</span>
+      <span class="divider-dot"></span>
+    </div>
+
+    <nav class="socials" id="socialContainer">
+      <!-- Links akan di-generate otomatis -->
+    </nav>
+
+    <div class="footer">
+      <span>amalikqx <span style="color:var(--accent)"></span> © <span id="currentYear"></span></span>
+    </div>
+  </main>
+
+  <!-- Panggil JS (config duluan) -->
+  <script src="js/config.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

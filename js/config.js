@@ -8,8 +8,8 @@ const CONFIG = {
   // Profil tampil 120px -> pakai 512px cukup tajam (<100KB, jauh di bawah 2MB).
   // Cover tampil max 520px -> pakai 1200px cukup tajam (~100-150KB).
   // auto=format -> browser dapat WebP/AVIF otomatis (lebih kecil 30-50%).
-  profileUrl: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=75&w=512&auto=format&fit=crop&crop=faces",
-  coverUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=70&w=1200&auto=format&fit=crop",
+  profileUrl: "https://github.com/almalikqx/link-in-bio/blob/main/images/0594f6481062a6d9a62d3f2d44f49f3c.jpg",
+  coverUrl: "https://i.pinimg.com/736x/0e/de/a0/0edea0f0a6da6f63e8dda679369d8398.jpg",
   
   socials: {
     youtube: "https://www.youtube.com/@amalikqx",

@@ -1,8 +1,8 @@
 const CONFIG = {
   name: "Malik",
   username: "amalikqx",
-  bio: "Software Engineer & UI Designer. Suka ngopi dan ngoding tengah malam.",
-  
+  bio: "404 Not Found",
+
   // OPTIMASI: jangan pakai w=1760 / w=2564 q=80 (bisa 1-3MB, lambat).
   // Aturan: lebar = 2x ukuran tampil (retina) sudah = "resolusi utuh" di layar.
   // Profil tampil 120px -> pakai 512px cukup tajam (<100KB, jauh di bawah 2MB).

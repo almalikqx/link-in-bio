@@ -19,6 +19,11 @@ function escapeHtml(str) {
 }
 
 function isSafeHttpUrl(url) {
+  if (!url || typeof url !== 'string') return false;
+  // Bolehkan path lokal (seperti images/foto.jpg atau ./foto.jpg)
+  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    return true;
+  }
   try {
     const parsed = new URL(url, location.href);
     return parsed.protocol === 'http:' || parsed.protocol === 'https:';
